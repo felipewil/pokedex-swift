@@ -23,6 +23,7 @@ class HomePresenter {
     private let api: ApiManager
 
     weak var delegate: HomePresenterDelegate?
+    var isLoadingMore = false
 
     // MARK: Initialization
     
@@ -35,7 +36,18 @@ class HomePresenter {
     func delegateDidLoad() {
         Task { await loadMore() }
     }
-    
+
+    func delegateWantsToLoadMore() {
+        guard self.api.hasMore(), self.isLoadingMore == false else { return }
+
+        self.isLoadingMore = true
+
+        Task {
+            await loadMore()
+            self.isLoadingMore = false
+        }
+    }
+
     func numberOfPokemons() -> Int {
         return self.api.pokemons.count
     }

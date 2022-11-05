@@ -324,7 +324,6 @@ extension PokemonDetailsViewController: PokemonDetailsPresenterDelegate {
         chartData.barWidth = 0.5
 
         statsChartView.data = chartData
-        statsChartView.leftAxis.axisMaximum = 120
         statsChartView.leftAxis.drawGridLinesEnabled = false
         statsChartView.rightAxis.enabled = false
         statsChartView.xAxis.valueFormatter = ChartXAxisFormatter()

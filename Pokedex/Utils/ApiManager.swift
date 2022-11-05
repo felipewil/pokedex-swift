@@ -55,6 +55,10 @@ class ApiManager {
         weakSelf?.isLoading = false
     }
     
+    func hasMore() -> Bool {
+        return self.currentPage?.hasNext ?? false
+    }
+    
     func pokemon(atIndex index: Int) -> Pokemon {
         return self.pokemons[index]
     }

@@ -43,6 +43,10 @@ class HomePokemonCell: UITableViewCell {
     // MARK: Helpers
     
     private func setup() {
+        self.titleLabel?.text = nil
+        self.spriteImageView?.image = nil
+        self.typesStack?.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
         self.titleLabel?.font = .systemFont(ofSize: Consts.titleFontSize,
                                             weight: .semibold)
         self.typesStack?.distribution = .fillProportionally

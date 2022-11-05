@@ -75,6 +75,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard indexPath.row >= self.presenter.numberOfPokemons() - 10 else { return }
+        self.presenter.delegateWantsToLoadMore()
+    }
         
 }
 
