@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Home View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="Pokedex" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="DqJ-93-hMc">
+                                <rect key="frame" x="0.0" y="47" width="390" height="763"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomePokemonCell" id="c7J-V0-CHe" customClass="HomePokemonCell" customModule="Pokedex" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="390" height="80.333335876464844"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c7J-V0-CHe" id="4YY-Wz-8c5">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="80.333335876464844"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yq8-B7-PxC">
+                                                    <rect key="frame" x="16" y="8" width="64" height="64.333333333333329"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="64" id="Bx8-ZT-iVm"/>
+                                                        <constraint firstAttribute="height" constant="64" id="IBW-sT-z4u"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D2j-zE-yAX">
+                                                    <rect key="frame" x="96" y="7.9999999999999982" width="278" height="20.333333333333329"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Fx0-hl-vo3">
+                                                    <rect key="frame" x="185" y="30.333333333333329" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qRA-tm-esW">
+                                                    <rect key="frame" x="96" y="36.333333333333336" width="278" height="32.000000000000007"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="32" id="gwX-71-xlL"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="D2j-zE-yAX" secondAttribute="trailing" constant="16" id="15w-6j-VaQ"/>
+                                                <constraint firstItem="Yq8-B7-PxC" firstAttribute="top" secondItem="4YY-Wz-8c5" secondAttribute="top" constant="8" id="481-A3-CaW"/>
+                                                <constraint firstAttribute="trailing" secondItem="qRA-tm-esW" secondAttribute="trailing" constant="16" id="Dee-gg-Mw3"/>
+                                                <constraint firstItem="D2j-zE-yAX" firstAttribute="leading" secondItem="Yq8-B7-PxC" secondAttribute="trailing" constant="16" id="HXY-JS-hwc"/>
+                                                <constraint firstItem="Fx0-hl-vo3" firstAttribute="centerY" secondItem="4YY-Wz-8c5" secondAttribute="centerY" id="aUd-9K-rLp"/>
+                                                <constraint firstItem="qRA-tm-esW" firstAttribute="top" secondItem="D2j-zE-yAX" secondAttribute="bottom" constant="8" id="g4O-X2-7yO"/>
+                                                <constraint firstAttribute="bottom" secondItem="Yq8-B7-PxC" secondAttribute="bottom" constant="8" id="iwd-MX-h5U"/>
+                                                <constraint firstItem="D2j-zE-yAX" firstAttribute="top" secondItem="4YY-Wz-8c5" secondAttribute="top" constant="8" id="jju-mS-aZa"/>
+                                                <constraint firstItem="qRA-tm-esW" firstAttribute="leading" secondItem="Yq8-B7-PxC" secondAttribute="trailing" constant="16" id="lQB-bh-gsf"/>
+                                                <constraint firstItem="Fx0-hl-vo3" firstAttribute="centerX" secondItem="4YY-Wz-8c5" secondAttribute="centerX" id="op9-le-mH3"/>
+                                                <constraint firstItem="Yq8-B7-PxC" firstAttribute="leading" secondItem="4YY-Wz-8c5" secondAttribute="leading" constant="16" id="uhH-iE-bjo"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="Fx0-hl-vo3" id="PLf-Bp-LDS"/>
+                                            <outlet property="spriteImageView" destination="Yq8-B7-PxC" id="FoO-rl-F4n"/>
+                                            <outlet property="titleLabel" destination="D2j-zE-yAX" id="KAM-rK-JVi"/>
+                                            <outlet property="typesStack" destination="qRA-tm-esW" id="kcA-9g-q3i"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" id="9ge-tm-bVo">
+                                <rect key="frame" x="0.0" y="400" width="390" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="DqJ-93-hMc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="G6M-C2-CBJ"/>
+                            <constraint firstItem="9ge-tm-bVo" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="VCf-HH-APr"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DqJ-93-hMc" secondAttribute="bottom" id="Xvo-vD-ATA"/>
+                            <constraint firstItem="9ge-tm-bVo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ab4-En-CJ7"/>
+                            <constraint firstItem="DqJ-93-hMc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pX2-jW-wuk"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DqJ-93-hMc" secondAttribute="trailing" id="rqL-oR-FnV"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="9ge-tm-bVo" id="4Pi-Ti-zVH"/>
+                        <outlet property="tableView" destination="DqJ-93-hMc" id="1GO-QJ-nd4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="140" y="3.5545023696682461"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
