@@ -66,6 +66,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let pokemon = self.presenter.pokemon(atIndex: indexPath.row)
         return HomePokemonCell.dequeueReusableCell(from: tableView, pokemon: pokemon, for: indexPath)
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let pokemon = self.presenter.pokemon(atIndex: indexPath.row)
+        let vc = PokemonDetailsViewController(pokemon: pokemon)
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
         
 }
 

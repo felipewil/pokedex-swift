@@ -70,13 +70,19 @@ class ApiManager {
             guard let name = type.type?.name else { return nil }
             return PokemonType(name: name)
         }
+        let stats = result.stats?.compactMap { stat -> PokemonStat? in
+            guard let name = stat.stat?.name else { return nil }
+            return PokemonStat(name: name, baseStat: stat.baseStat)
+        }
         let pokemon = Pokemon(id: result.id,
                               name: name,
                               baseExperience: result.baseExperience,
                               height: result.height,
+                              weight: result.weight,
                               isDefault: result.isDefault,
                               spries: sprites,
                               types: types,
+                              stats: stats,
                               isLoaded: true)
     
         self.pokemons[index] = pokemon
