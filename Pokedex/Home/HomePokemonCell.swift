@@ -11,7 +11,7 @@ class HomePokemonCell: UITableViewCell {
 
     private struct Consts {
         static let titleFontSize: CGFloat = 20.0
-        static let typeFontSize: CGFloat = 17.0
+        static let typeFontSize: CGFloat = 13.0
     }
 
     // MARK: Properties
@@ -43,9 +43,10 @@ class HomePokemonCell: UITableViewCell {
     // MARK: Helpers
     
     private func setup() {
-        self.titleLabel?.font = .systemFont(ofSize: Consts.titleFontSize)
+        self.titleLabel?.font = .systemFont(ofSize: Consts.titleFontSize,
+                                            weight: .semibold)
         self.typesStack?.distribution = .fillProportionally
-        self.typesStack?.alignment = .leading
+        self.typesStack?.spacing = 8.0
     }
 
 }
@@ -66,13 +67,14 @@ extension HomePokemonCell: HomePokemonCellPresenterDelegate {
 
     func show(_ pokemon: Pokemon) {
         let id = String(format: "%03d", pokemon.id ?? 0)
-        self.titleLabel?.text = "\(id) \(pokemon.name.capitalized)"
+        self.titleLabel?.text = "\(id). \(pokemon.name.capitalized)"
 
         self.typesStack?.arrangedSubviews.forEach { $0.removeFromSuperview() }
         pokemon.types?.forEach { type in
             let label = UILabel()
             label.text = type.name?.capitalized
-            label.font = .systemFont(ofSize: Consts.typeFontSize)
+            label.font = .systemFont(ofSize: Consts.typeFontSize, weight: .semibold)
+            label.textColor = self.foregroundColor(for: type)
             label.translatesAutoresizingMaskIntoConstraints = false
             
             let wrapper = UIView()
@@ -110,12 +112,54 @@ extension HomePokemonCell: HomePokemonCellPresenterDelegate {
         }
     }
 
+    private func foregroundColor(for type: PokemonType) -> UIColor? {
+        guard let name = type.name else { return .clear }
+
+        switch name {
+        case "normal": return .white
+        case "fire": return .white
+        case "water": return .white
+        case "electric": return .white
+        case "grass": return .white
+        case "ice": return .white
+        case "fighting": return .white
+        case "poison": return .white
+        case "ground": return .white
+        case "flying": return .white
+        case "psychic": return .white
+        case "bug": return .white
+        case "rock": return .white
+        case "ghost": return .white
+        case "dragon": return .white
+        case "dark": return .white
+        case "steel": return .white
+        case "fairy": return .white
+        default: return .clear
+        }
+    }
+
     private func backgroundColor(for type: PokemonType) -> UIColor? {
         guard let name = type.name else { return .clear }
 
         switch name {
-        case "grass": return .green
-        case "fire": return .green
+        case "normal": return UIColor(rgb: 0xA8A77A)
+        case "fire": return UIColor(rgb: 0xEE8130)
+        case "water": return UIColor(rgb: 0x6390F0)
+        case "electric": return UIColor(rgb: 0xF7D02C)
+        case "grass": return UIColor(rgb: 0x7AC74C)
+        case "ice": return UIColor(rgb: 0x96D9D6)
+        case "fighting": return UIColor(rgb: 0xC22E28)
+        case "poison": return UIColor(rgb: 0xA33EA1)
+        case "ground": return UIColor(rgb: 0xE2BF65)
+        case "flying": return UIColor(rgb: 0xA98FF3)
+        case "psychic": return UIColor(rgb: 0xF95587)
+        case "bug": return UIColor(rgb: 0xA6B91A)
+        case "rock": return UIColor(rgb: 0xB6A136)
+        case "ghost": return UIColor(rgb: 0x735797)
+        case "dragon": return UIColor(rgb: 0x6F35FC)
+        case "dark": return UIColor(rgb: 0x705746)
+        case "steel": return UIColor(rgb: 0xB7B7CE)
+        case "fairy": return UIColor(rgb: 0xD685AD)
         default: return .clear
         }
     }

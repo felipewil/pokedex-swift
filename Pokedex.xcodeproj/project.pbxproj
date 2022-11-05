@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD1047E62916A1F000C515F2 /* UIColor+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1047E52916A1F000C515F2 /* UIColor+extensions.swift */; };
 		CD273F492916781D00AFA49F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD273F482916781D00AFA49F /* AppDelegate.swift */; };
 		CD273F4B2916781D00AFA49F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD273F4A2916781D00AFA49F /* SceneDelegate.swift */; };
 		CD273F4D2916781D00AFA49F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD273F4C2916781D00AFA49F /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CD1047E52916A1F000C515F2 /* UIColor+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extensions.swift"; sourceTree = "<group>"; };
 		CD273F452916781D00AFA49F /* Pokedex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokedex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD273F482916781D00AFA49F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD273F4A2916781D00AFA49F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				CD7BCB4A29167E3000D2159D /* ApiManager.swift */,
+				CD1047E52916A1F000C515F2 /* UIColor+extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 				CD7BCB4B29167E3000D2159D /* ApiManager.swift in Sources */,
 				CD273F492916781D00AFA49F /* AppDelegate.swift in Sources */,
 				CD273F4B2916781D00AFA49F /* SceneDelegate.swift in Sources */,
+				CD1047E62916A1F000C515F2 /* UIColor+extensions.swift in Sources */,
 				CD7BCB472916797400D2159D /* HomePresenter.swift in Sources */,
 				CD7BCB452916796400D2159D /* HomeViewController.swift in Sources */,
 			);

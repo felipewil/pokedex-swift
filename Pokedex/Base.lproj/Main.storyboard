@@ -44,16 +44,16 @@
                                                     <rect key="frame" x="185" y="30.333333333333329" width="20" height="20"/>
                                                 </activityIndicatorView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qRA-tm-esW">
-                                                    <rect key="frame" x="96" y="36.333333333333336" width="278" height="32.000000000000007"/>
+                                                    <rect key="frame" x="96" y="36.333333333333336" width="278" height="24"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="32" id="gwX-71-xlL"/>
+                                                        <constraint firstAttribute="height" constant="24" id="gwX-71-xlL"/>
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="D2j-zE-yAX" secondAttribute="trailing" constant="16" id="15w-6j-VaQ"/>
                                                 <constraint firstItem="Yq8-B7-PxC" firstAttribute="top" secondItem="4YY-Wz-8c5" secondAttribute="top" constant="8" id="481-A3-CaW"/>
-                                                <constraint firstAttribute="trailing" secondItem="qRA-tm-esW" secondAttribute="trailing" constant="16" id="Dee-gg-Mw3"/>
+                                                <constraint firstAttribute="trailing" secondItem="qRA-tm-esW" secondAttribute="trailing" constant="16" placeholder="YES" id="Dee-gg-Mw3"/>
                                                 <constraint firstItem="D2j-zE-yAX" firstAttribute="leading" secondItem="Yq8-B7-PxC" secondAttribute="trailing" constant="16" id="HXY-JS-hwc"/>
                                                 <constraint firstItem="Fx0-hl-vo3" firstAttribute="centerY" secondItem="4YY-Wz-8c5" secondAttribute="centerY" id="aUd-9K-rLp"/>
                                                 <constraint firstItem="qRA-tm-esW" firstAttribute="top" secondItem="D2j-zE-yAX" secondAttribute="bottom" constant="8" id="g4O-X2-7yO"/>
