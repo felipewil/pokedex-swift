@@ -24,6 +24,7 @@ class HomePresenter {
 
     weak var delegate: HomePresenterDelegate?
     var isLoadingMore = false
+    var search: String?
 
     // MARK: Initialization
     
@@ -48,12 +49,18 @@ class HomePresenter {
         }
     }
 
+    func delegateDidUpdateSearch(_ search: String?) {
+        guard self.search ?? "" != search?.lowercased() ?? "" else { return }
+        self.search = search?.lowercased()
+        self.delegate?.listUpdated()
+    }
+
     func numberOfPokemons() -> Int {
-        return self.api.pokemons.count
+        return self.api.numberOfPokemons(filter: self.search)
     }
 
     func pokemon(atIndex index: Int) -> Pokemon {
-        return self.api.pokemon(atIndex: index)
+        return self.api.pokemon(atIndex: index, filter: self.search)
     }
     
     // MARK: Private methods

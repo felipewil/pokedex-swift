@@ -18,6 +18,8 @@ class HomeViewController: ViewController {
     @IBOutlet weak var tableView: UITableView?
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView?
 
+    lazy var searchController = UISearchController()
+
     // MARK: Initialization
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -46,6 +48,9 @@ class HomeViewController: ViewController {
         self.presenter.delegate = self
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
+        self.searchController.searchResultsUpdater = self
+        
+        self.navigationItem.searchController = searchController
     }
 
 }
@@ -101,6 +106,17 @@ extension HomeViewController: HomePresenterDelegate {
                 self.activityIndicator?.stopAnimating()
             }
         }
+    }
+
+}
+
+// MARK: -
+
+extension HomeViewController: UISearchControllerDelegate, UISearchResultsUpdating {
+
+    func updateSearchResults(for searchController: UISearchController) {
+        let search = searchController.searchBar.text
+        self.presenter.delegateDidUpdateSearch(search)
     }
 
 }

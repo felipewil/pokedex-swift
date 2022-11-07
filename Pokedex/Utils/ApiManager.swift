@@ -20,9 +20,9 @@ class ApiManager {
 
     private let api: PokemonAPI
     private var currentPage: PKMPagedObject<PKMPokemon>?
+    private var pokemons: [ Pokemon ] = []
 
     weak var delegate: HomePresenterDelegate?
-    var pokemons: [ Pokemon ] = []
     var isLoading = false
 
     // MARK: Initialization
@@ -59,8 +59,27 @@ class ApiManager {
         return self.currentPage?.hasNext ?? false
     }
     
-    func pokemon(atIndex index: Int) -> Pokemon {
-        return self.pokemons[index]
+    func numberOfPokemons(filter: String? = nil) -> Int {
+        let pokemons = self.pokemons
+        
+        if let filter, !filter.isEmpty {
+            return pokemons
+                .filter { $0.name.lowercased().contains(filter) }
+                .count
+        }
+        
+        return pokemons.count
+    }
+    
+    func pokemon(atIndex index: Int, filter: String? = nil) -> Pokemon {
+        var pokemons = self.pokemons
+        
+        if let filter, !filter.isEmpty {
+            pokemons = pokemons
+                .filter { $0.name.lowercased().contains(filter) }
+        }
+
+        return pokemons[index]
     }
 
     func loadPokemon(_ pokemon: Pokemon) async -> Pokemon? {
