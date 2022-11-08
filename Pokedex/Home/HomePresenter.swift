@@ -9,7 +9,6 @@ import Foundation
 
 protocol HomePresenterDelegate: AnyObject {
     func listUpdated()
-    func showLoading(_ show: Bool)
 }
 
 class HomePresenter {
@@ -49,14 +48,26 @@ class HomePresenter {
         self.delegate?.listUpdated()
     }
 
+    /// Returns the current number of loaded pokemons with filter applied.
     func numberOfPokemons() -> Int {
-        return self.api.numberOfPokemons(filter: self.search)
+        return self.api.pokemons(filter: self.search).count
     }
 
+    /// Returns a `Pokemon` at the given index.
     func pokemon(atIndex index: Int) -> Pokemon {
         return self.api.pokemon(atIndex: index, filter: self.search)
     }
-    
+
+    /// Returns all loaded pokemons with filter applied.
+    func pokemons() -> [ Pokemon ] {
+        return self.api.pokemons(filter: self.search)
+    }
+
+    /// Whether there are more pokemons to be loaded.
+    func hasMore() -> Bool {
+        return self.api.hasMore()
+    }
+
     // MARK: Private methods
 
     private func loadMore() {
@@ -65,15 +76,10 @@ class HomePresenter {
         self.isLoading = true
         
         Task {
-            await MainActor.run {
-                self.delegate?.showLoading(true)
-            }
-
             await self.api.loadNext()
 
             await MainActor.run {
                 self.isLoading = false
-                self.delegate?.showLoading(false)
                 self.delegate?.listUpdated()
             }
         }

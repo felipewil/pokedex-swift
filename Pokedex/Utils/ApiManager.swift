@@ -20,7 +20,7 @@ class ApiManager {
 
     private let api: PokemonAPI
     private var currentPage: PKMPagedObject<PKMPokemon>?
-    private var pokemons: [ Pokemon ] = []
+    private(set) var pokemons: [ Pokemon ] = []
 
     weak var delegate: HomePresenterDelegate?
     var isLoading = false
@@ -33,6 +33,7 @@ class ApiManager {
 
     // MARK: Public methods
 
+    /// Loads the next batch of pokemons.
     func loadNext() async {
         guard self.isLoading == false else { return }
 
@@ -54,34 +55,30 @@ class ApiManager {
 
         weakSelf?.isLoading = false
     }
-    
+
+    /// Whether there are more pokemons to be loaded.
     func hasMore() -> Bool {
         return self.currentPage?.hasNext ?? false
     }
-    
-    func numberOfPokemons(filter: String? = nil) -> Int {
+
+    /// Returns all loaded pokemons with filter applied.
+    func pokemons(filter: String? = nil) -> [ Pokemon ] {
         let pokemons = self.pokemons
         
         if let filter, !filter.isEmpty {
             return pokemons
                 .filter { $0.name.lowercased().contains(filter) }
-                .count
         }
         
-        return pokemons.count
+        return pokemons
     }
-    
+
+    /// Returns a `Pokemon` at the given index with filter applied.
     func pokemon(atIndex index: Int, filter: String? = nil) -> Pokemon {
-        var pokemons = self.pokemons
-        
-        if let filter, !filter.isEmpty {
-            pokemons = pokemons
-                .filter { $0.name.lowercased().contains(filter) }
-        }
-
-        return pokemons[index]
+        return self.pokemons(filter: filter)[index]
     }
 
+    /// Load details for the given Pokemon.
     func loadPokemon(_ pokemon: Pokemon) async -> Pokemon? {
         guard
             let result = try? await self.api.pokemonService.fetchPokemon(pokemon.name),

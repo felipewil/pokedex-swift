@@ -17,10 +17,11 @@ class HomeViewController: ViewController {
     // MARK: Properties
 
     var presenter: HomePresenter
+    private var dataSource: UITableViewDiffableDataSource<Int, Pokemon>?
 
     // MARK: Views
 
-    @IBOutlet weak var tableView: UITableView?
+    @IBOutlet weak var tableView: UITableView!
 
     lazy var searchController = UISearchController()
 
@@ -49,53 +50,44 @@ class HomeViewController: ViewController {
     // MARK: Helpers
 
     private func setup() {
+        self.dataSource = makeDataSource()
         self.presenter.delegate = self
         self.tableView?.delegate = self
-        self.tableView?.dataSource = self
+        self.tableView?.dataSource = self.dataSource
         self.tableView?.rowHeight = Consts.estimatedRowHeight
         self.searchController.searchResultsUpdater = self
         
         self.navigationItem.searchController = searchController
     }
 
+    private func makeDataSource() -> UITableViewDiffableDataSource<Int, Pokemon> {
+        return UITableViewDiffableDataSource(tableView: self.tableView) { tableView, indexPath, pokemon in
+            if indexPath.row < self.presenter.numberOfPokemons() {
+                return HomePokemonCell.dequeueReusableCell(from: tableView, pokemon: pokemon, for: indexPath)
+            }
+
+            return HomePokemonCell.dequeueReusablePlaceholderCell(from: tableView, for: indexPath)
+        }
+    }
+
 }
 
 // MARK: -
 
-extension HomeViewController: UITableViewDelegate, SkeletonTableViewDataSource {
-
-    func numberOfSections(in skeletonView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.presenter.numberOfPokemons() + (self.presenter.isLoading ? 10 : 0)
-    }
-
-    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
-        return HomePokemonCell.reusableIdentifier
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row < self.presenter.numberOfPokemons() {
-            let pokemon = self.presenter.pokemon(atIndex: indexPath.row)
-            return HomePokemonCell.dequeueReusableCell(from: tableView, pokemon: pokemon, for: indexPath)
-        }
-
-        return HomePokemonCell.dequeueReusablePlaceholderCell(from: tableView, for: indexPath)
-    }
+extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let pokemon = self.presenter.pokemon(atIndex: indexPath.row)
         let vc = PokemonDetailsViewController(pokemon: pokemon)
-        
+
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard indexPath.row >= self.presenter.numberOfPokemons() - 10 else { return }
+        print("--> should load more", indexPath.section == 1)
+        guard indexPath.section == 1 else { return }
         self.presenter.delegateWantsToLoadMore()
     }
         
@@ -106,11 +98,24 @@ extension HomeViewController: UITableViewDelegate, SkeletonTableViewDataSource {
 extension HomeViewController: HomePresenterDelegate {
 
     func listUpdated() {
-        self.tableView?.reloadData()
-    }
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Pokemon>()
+        snapshot.appendSections([ 0, 1 ])
 
-    func showLoading(_ show: Bool) {
+        var items = self.presenter.pokemons()
+
+        if self.presenter.isLoading {
+            for _ in 0 ..< 10 {
+                items.append(Pokemon(name: UUID().uuidString))
+            }
+        }
+
+        snapshot.appendItems(items, toSection: 0)
         
+        if self.presenter.hasMore() {
+            snapshot.appendItems([ Pokemon(name: UUID().uuidString) ], toSection: 1)
+        }
+
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
 
 }
