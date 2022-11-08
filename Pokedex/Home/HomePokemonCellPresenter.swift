@@ -36,11 +36,15 @@ class HomePokemonCellPresenter {
     private func handle(_ pokemon: Pokemon) {
         if pokemon.isLoaded {
             self.delegate?.show(pokemon)
+            self.delegate?.showLoading(false)
         } else {
+            self.delegate?.showLoading(true)
             Task {
-                self.delegate?.showLoading(true)
                 let pokemon = await self.api.loadPokemon(pokemon)
-                self.delegate?.showLoading(false)
+                
+                await MainActor.run {
+                    self.delegate?.showLoading(false)
+                }
 
                 guard let pokemon else { return }
                 

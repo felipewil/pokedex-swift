@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class HomePokemonCell: UITableViewCell {
 
@@ -17,14 +18,20 @@ class HomePokemonCell: UITableViewCell {
     // MARK: Properties
     
     static let reusableIdentifier = "HomePokemonCell"
-    var presenter = HomePokemonCellPresenter()
+    private var presenter = HomePokemonCellPresenter()
+    private var isPlaceholder = false
+    private var pokemon: Pokemon?
     
     // MARK: Views
 
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView?
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var spriteImageView: UIImageView?
     @IBOutlet weak var typesStack: TypeStackView?
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.setup()
+    }
 
     // MARK: Public methods
     
@@ -32,10 +39,27 @@ class HomePokemonCell: UITableViewCell {
                                     pokemon: Pokemon,
                                     for indexPath: IndexPath) -> HomePokemonCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as! HomePokemonCell
+        
+        if cell.pokemon?.name != pokemon.name {
+            cell.pokemon = pokemon
+            cell.isPlaceholder = false
 
-        cell.setup()
-        cell.presenter.delegate = cell
-        cell.presenter.delegateDidLoad(with: pokemon)
+            cell.clean()
+            
+            cell.presenter.delegate = cell
+            cell.presenter.delegateDidLoad(with: pokemon)
+        }
+
+        return cell
+    }
+    
+    static func dequeueReusablePlaceholderCell(from tableView: UITableView,
+                                               for indexPath: IndexPath) -> HomePokemonCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as! HomePokemonCell
+
+        cell.isPlaceholder = true
+        cell.showLoading(true)
+        cell.spriteImageView?.showAnimatedGradientSkeleton()
 
         return cell
     }
@@ -43,14 +67,20 @@ class HomePokemonCell: UITableViewCell {
     // MARK: Helpers
     
     private func setup() {
-        self.titleLabel?.text = nil
-        self.spriteImageView?.image = nil
-        self.typesStack?.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        self.isSkeletonable = true
+        self.titleLabel?.isSkeletonable = true
+        self.spriteImageView?.isSkeletonable = true
+        self.typesStack?.isSkeletonable = true
 
         self.titleLabel?.font = .systemFont(ofSize: Consts.titleFontSize,
                                             weight: .semibold)
         self.typesStack?.distribution = .fillProportionally
         self.typesStack?.spacing = 8.0
+    }
+    
+    private func clean() {
+        self.spriteImageView?.image = nil
+        self.titleLabel?.text = nil
     }
 
 }
@@ -58,14 +88,18 @@ class HomePokemonCell: UITableViewCell {
 // MARK: -
 
 extension HomePokemonCell: HomePokemonCellPresenterDelegate {
-    
+
     func showLoading(_ show: Bool) {
-        DispatchQueue.main.async {
-            if show {
-                self.activityIndicator?.startAnimating()
-            } else {
-                self.activityIndicator?.stopAnimating()
+        if show {
+            self.titleLabel?.showAnimatedGradientSkeleton()
+            self.typesStack?.showLoading()
+            
+            if isPlaceholder {
+                self.spriteImageView?.showAnimatedGradientSkeleton()
             }
+        } else {
+            self.titleLabel?.hideSkeleton()
+            self.spriteImageView?.hideSkeleton()
         }
     }
 

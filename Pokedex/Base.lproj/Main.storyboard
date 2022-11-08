@@ -56,9 +56,6 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Fx0-hl-vo3">
-                                                    <rect key="frame" x="170" y="30.333333333333329" width="20" height="20"/>
-                                                </activityIndicatorView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qRA-tm-esW" customClass="TypeStackView" customModule="Pokedex" customModuleProvider="target">
                                                     <rect key="frame" x="95.999999999999986" y="36.333333333333336" width="247.66666666666663" height="24"/>
                                                     <constraints>
@@ -71,17 +68,14 @@
                                                 <constraint firstItem="Yq8-B7-PxC" firstAttribute="top" secondItem="4YY-Wz-8c5" secondAttribute="top" constant="8" id="481-A3-CaW"/>
                                                 <constraint firstAttribute="trailing" secondItem="qRA-tm-esW" secondAttribute="trailing" constant="16" placeholder="YES" id="Dee-gg-Mw3"/>
                                                 <constraint firstItem="D2j-zE-yAX" firstAttribute="leading" secondItem="Yq8-B7-PxC" secondAttribute="trailing" constant="16" id="HXY-JS-hwc"/>
-                                                <constraint firstItem="Fx0-hl-vo3" firstAttribute="centerY" secondItem="4YY-Wz-8c5" secondAttribute="centerY" id="aUd-9K-rLp"/>
                                                 <constraint firstItem="qRA-tm-esW" firstAttribute="top" secondItem="D2j-zE-yAX" secondAttribute="bottom" constant="8" id="g4O-X2-7yO"/>
                                                 <constraint firstAttribute="bottom" secondItem="Yq8-B7-PxC" secondAttribute="bottom" constant="8" id="iwd-MX-h5U"/>
                                                 <constraint firstItem="D2j-zE-yAX" firstAttribute="top" secondItem="4YY-Wz-8c5" secondAttribute="top" constant="8" id="jju-mS-aZa"/>
                                                 <constraint firstItem="qRA-tm-esW" firstAttribute="leading" secondItem="Yq8-B7-PxC" secondAttribute="trailing" constant="16" id="lQB-bh-gsf"/>
-                                                <constraint firstItem="Fx0-hl-vo3" firstAttribute="centerX" secondItem="4YY-Wz-8c5" secondAttribute="centerX" id="op9-le-mH3"/>
                                                 <constraint firstItem="Yq8-B7-PxC" firstAttribute="leading" secondItem="4YY-Wz-8c5" secondAttribute="leading" constant="16" id="uhH-iE-bjo"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="activityIndicator" destination="Fx0-hl-vo3" id="PLf-Bp-LDS"/>
                                             <outlet property="spriteImageView" destination="Yq8-B7-PxC" id="FoO-rl-F4n"/>
                                             <outlet property="titleLabel" destination="D2j-zE-yAX" id="KAM-rK-JVi"/>
                                             <outlet property="typesStack" destination="qRA-tm-esW" id="kcA-9g-q3i"/>
@@ -89,18 +83,12 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" id="9ge-tm-bVo">
-                                <rect key="frame" x="0.0" y="400" width="390" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="DqJ-93-hMc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="G6M-C2-CBJ"/>
-                            <constraint firstItem="9ge-tm-bVo" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="VCf-HH-APr"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DqJ-93-hMc" secondAttribute="bottom" id="Xvo-vD-ATA"/>
-                            <constraint firstItem="9ge-tm-bVo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ab4-En-CJ7"/>
                             <constraint firstItem="DqJ-93-hMc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pX2-jW-wuk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DqJ-93-hMc" secondAttribute="trailing" id="rqL-oR-FnV"/>
                         </constraints>
@@ -108,7 +96,6 @@
                     <navigationItem key="navigationItem" id="UzN-B0-Jfl"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="9ge-tm-bVo" id="4Pi-Ti-zVH"/>
                         <outlet property="tableView" destination="DqJ-93-hMc" id="1GO-QJ-nd4"/>
                     </connections>
                 </viewController>

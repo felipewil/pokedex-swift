@@ -9,7 +9,7 @@ import Foundation
 
 protocol HomePresenterDelegate: AnyObject {
     func listUpdated()
-    func showLoading(_ isLoading: Bool)
+    func showLoading(_ show: Bool)
 }
 
 class HomePresenter {
@@ -23,8 +23,8 @@ class HomePresenter {
     private let api: ApiManager
 
     weak var delegate: HomePresenterDelegate?
-    var isLoadingMore = false
-    var search: String?
+    private(set) var isLoading = false
+    private(set) var search: String?
 
     // MARK: Initialization
     
@@ -35,18 +35,12 @@ class HomePresenter {
     // MARK: Public methods
 
     func delegateDidLoad() {
-        Task { await loadMore() }
+        loadMore()
     }
 
     func delegateWantsToLoadMore() {
-        guard self.api.hasMore(), self.isLoadingMore == false else { return }
-
-        self.isLoadingMore = true
-
-        Task {
-            await loadMore()
-            self.isLoadingMore = false
-        }
+        guard self.api.hasMore() else { return }
+        loadMore()
     }
 
     func delegateDidUpdateSearch(_ search: String?) {
@@ -65,12 +59,23 @@ class HomePresenter {
     
     // MARK: Private methods
 
-    private func loadMore() async {
-        self.delegate?.showLoading(true)
+    private func loadMore() {
+        guard self.isLoading == false else { return }
 
-        await self.api.loadNext()
+        self.isLoading = true
+        
+        Task {
+            await MainActor.run {
+                self.delegate?.showLoading(true)
+            }
 
-        self.delegate?.showLoading(false)
-        self.delegate?.listUpdated()
+            await self.api.loadNext()
+
+            await MainActor.run {
+                self.isLoading = false
+                self.delegate?.showLoading(false)
+                self.delegate?.listUpdated()
+            }
+        }
     }
 }

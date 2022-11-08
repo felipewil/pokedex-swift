@@ -19,6 +19,7 @@
 		CD273F502916781D00AFA49F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD273F4E2916781D00AFA49F /* Main.storyboard */; };
 		CD273F522916781E00AFA49F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD273F512916781E00AFA49F /* Assets.xcassets */; };
 		CD273F552916781E00AFA49F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD273F532916781E00AFA49F /* LaunchScreen.storyboard */; };
+		CD3551722919CA4C00E03804 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = CD3551712919CA4C00E03804 /* SkeletonView */; };
 		CD7BCB43291678E800D2159D /* PokemonAPI in Frameworks */ = {isa = PBXBuildFile; productRef = CD7BCB42291678E800D2159D /* PokemonAPI */; };
 		CD7BCB452916796400D2159D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7BCB442916796400D2159D /* HomeViewController.swift */; };
 		CD7BCB472916797400D2159D /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7BCB462916797400D2159D /* HomePresenter.swift */; };
@@ -56,6 +57,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD7BCB43291678E800D2159D /* PokemonAPI in Frameworks */,
+				CD3551722919CA4C00E03804 /* SkeletonView in Frameworks */,
 				CD1047F32916BEBD00C515F2 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -163,6 +165,7 @@
 			packageProductDependencies = (
 				CD7BCB42291678E800D2159D /* PokemonAPI */,
 				CD1047F22916BEBD00C515F2 /* Charts */,
+				CD3551712919CA4C00E03804 /* SkeletonView */,
 			);
 			productName = Pokedex;
 			productReference = CD273F452916781D00AFA49F /* Pokedex.app */;
@@ -195,6 +198,7 @@
 			packageReferences = (
 				CD7BCB41291678E800D2159D /* XCRemoteSwiftPackageReference "PokemonAPI" */,
 				CD1047F12916BEBD00C515F2 /* XCRemoteSwiftPackageReference "Charts" */,
+				CD3551702919CA4C00E03804 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			productRefGroup = CD273F462916781D00AFA49F /* Products */;
 			projectDirPath = "";
@@ -464,6 +468,14 @@
 				kind = branch;
 			};
 		};
+		CD3551702919CA4C00E03804 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		CD7BCB41291678E800D2159D /* XCRemoteSwiftPackageReference "PokemonAPI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kinkofer/PokemonAPI";
@@ -479,6 +491,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CD1047F12916BEBD00C515F2 /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
+		};
+		CD3551712919CA4C00E03804 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD3551702919CA4C00E03804 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
 		};
 		CD7BCB42291678E800D2159D /* PokemonAPI */ = {
 			isa = XCSwiftPackageProductDependency;

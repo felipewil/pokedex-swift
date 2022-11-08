@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class TypeStackView: UIStackView {
 
@@ -13,8 +14,21 @@ class TypeStackView: UIStackView {
         static let fontSize: CGFloat = 13.0
     }
 
-    // MARK: Public helpers
-    
+    // MARK: Public methods
+
+    func showLoading() {
+        self.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        let label = UILabel()
+        label.text = Array(repeating: " ", count: 60).joined()
+        label.font = .systemFont(ofSize: Consts.fontSize, weight: .semibold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isSkeletonable = true
+        label.showAnimatedGradientSkeleton()
+
+        self.addArrangedSubview(label)
+    }
+
     func load(types: [ PokemonType ]) {
         self.arrangedSubviews.forEach { $0.removeFromSuperview() }
 

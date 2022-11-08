@@ -6,9 +6,14 @@
 //
 
 import UIKit
+import SkeletonView
 
 class HomeViewController: ViewController {
 
+    private struct Consts {
+        static let estimatedRowHeight: CGFloat = 80.0
+    }
+    
     // MARK: Properties
 
     var presenter: HomePresenter
@@ -16,7 +21,6 @@ class HomeViewController: ViewController {
     // MARK: Views
 
     @IBOutlet weak var tableView: UITableView?
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView?
 
     lazy var searchController = UISearchController()
 
@@ -48,6 +52,7 @@ class HomeViewController: ViewController {
         self.presenter.delegate = self
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
+        self.tableView?.rowHeight = Consts.estimatedRowHeight
         self.searchController.searchResultsUpdater = self
         
         self.navigationItem.searchController = searchController
@@ -57,24 +62,32 @@ class HomeViewController: ViewController {
 
 // MARK: -
 
-extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+extension HomeViewController: UITableViewDelegate, SkeletonTableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in skeletonView: UITableView) -> Int {
         return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.presenter.numberOfPokemons()
+        return self.presenter.numberOfPokemons() + (self.presenter.isLoading ? 10 : 0)
+    }
+
+    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return HomePokemonCell.reusableIdentifier
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let pokemon = self.presenter.pokemon(atIndex: indexPath.row)
-        return HomePokemonCell.dequeueReusableCell(from: tableView, pokemon: pokemon, for: indexPath)
+        if indexPath.row < self.presenter.numberOfPokemons() {
+            let pokemon = self.presenter.pokemon(atIndex: indexPath.row)
+            return HomePokemonCell.dequeueReusableCell(from: tableView, pokemon: pokemon, for: indexPath)
+        }
+
+        return HomePokemonCell.dequeueReusablePlaceholderCell(from: tableView, for: indexPath)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
         let pokemon = self.presenter.pokemon(atIndex: indexPath.row)
         let vc = PokemonDetailsViewController(pokemon: pokemon)
         
@@ -93,19 +106,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 extension HomeViewController: HomePresenterDelegate {
 
     func listUpdated() {
-        DispatchQueue.main.async {
-            self.tableView?.reloadData()
-        }
+        self.tableView?.reloadData()
     }
-    
-    func showLoading(_ isLoading: Bool) {
-        DispatchQueue.main.async {
-            if isLoading {
-                self.activityIndicator?.startAnimating()
-            } else {
-                self.activityIndicator?.stopAnimating()
-            }
-        }
+
+    func showLoading(_ show: Bool) {
+        
     }
 
 }
