@@ -74,7 +74,7 @@ class HomePresenter {
         guard self.isLoading == false else { return }
 
         self.isLoading = true
-        
+
         Task {
             await self.api.loadNext()
 

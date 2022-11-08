@@ -16,7 +16,7 @@ class HomePokemonCell: UITableViewCell {
     }
 
     // MARK: Properties
-    
+
     static let reusableIdentifier = "HomePokemonCell"
     private var presenter = HomePokemonCellPresenter()
     private var isPlaceholder = false
@@ -24,9 +24,9 @@ class HomePokemonCell: UITableViewCell {
     
     // MARK: Views
 
-    @IBOutlet weak var titleLabel: UILabel?
-    @IBOutlet weak var spriteImageView: UIImageView?
-    @IBOutlet weak var typesStack: TypeStackView?
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var spriteImageView: UIImageView!
+    @IBOutlet weak var typesStack: TypeStackView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,7 +55,7 @@ class HomePokemonCell: UITableViewCell {
     
     static func dequeueReusablePlaceholderCell(from tableView: UITableView,
                                                for indexPath: IndexPath) -> HomePokemonCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as! HomePokemonCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reusablePlaceholderIdentifier, for: indexPath) as! HomePokemonCell
 
         cell.isPlaceholder = true
         cell.showLoading(true)
@@ -63,24 +63,31 @@ class HomePokemonCell: UITableViewCell {
 
         return cell
     }
-    
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.spriteImageView.image = nil
+        self.titleLabel.text = nil
+        self.typesStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+    }
+
     // MARK: Helpers
     
     private func setup() {
         self.isSkeletonable = true
-        self.titleLabel?.isSkeletonable = true
-        self.spriteImageView?.isSkeletonable = true
-        self.typesStack?.isSkeletonable = true
+        self.titleLabel.isSkeletonable = true
+        self.spriteImageView.isSkeletonable = true
+        self.typesStack.isSkeletonable = true
 
-        self.titleLabel?.font = .systemFont(ofSize: Consts.titleFontSize,
+        self.titleLabel.font = .systemFont(ofSize: Consts.titleFontSize,
                                             weight: .semibold)
-        self.typesStack?.distribution = .fillProportionally
-        self.typesStack?.spacing = 8.0
+        self.typesStack.distribution = .fillProportionally
+        self.typesStack.spacing = 8.0
     }
     
     private func clean() {
-        self.spriteImageView?.image = nil
-        self.titleLabel?.text = nil
+        self.spriteImageView.image = nil
+        self.titleLabel.text = nil
     }
 
 }
@@ -93,10 +100,7 @@ extension HomePokemonCell: HomePokemonCellPresenterDelegate {
         if show {
             self.titleLabel?.showAnimatedGradientSkeleton()
             self.typesStack?.showLoading()
-            
-            if isPlaceholder {
-                self.spriteImageView?.showAnimatedGradientSkeleton()
-            }
+            self.spriteImageView?.showAnimatedGradientSkeleton()
         } else {
             self.titleLabel?.hideSkeleton()
             self.spriteImageView?.hideSkeleton()
@@ -104,10 +108,29 @@ extension HomePokemonCell: HomePokemonCellPresenterDelegate {
     }
 
     func show(_ pokemon: Pokemon) {
+        guard self.pokemon?.name == pokemon.name else { return }
+
         self.titleLabel?.text = pokemon.fullIdentifier
         self.typesStack?.load(types: pokemon.types ?? [])
 
-        Task { await self.spriteImageView?.loadPokemon(pokemon) }
+        Task { await loadSprite(for: pokemon) }
+    }
+    
+    // MARK: Helpers
+    
+    private func loadSprite(for pokemon: Pokemon) async {
+        guard
+            let sprite = pokemon.spries?.front,
+            let url = URL(string: sprite) else { return }
+
+        let response = try? await URLSession.shared.data(from: url)
+
+        guard let data = response?.0 else { return }
+
+        await MainActor.run { [ weak self ] in
+            guard self?.pokemon?.name == pokemon.name else { return }
+            self?.spriteImageView?.image = UIImage(data: data)
+        }
     }
 
 }

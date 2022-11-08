@@ -79,9 +79,12 @@ struct Pokemon {
 
 extension Pokemon: Hashable {
 
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name)
+    }
+
     static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
         return lhs.name.hashValue == rhs.name.hashValue
-            && lhs.isLoaded == rhs.isLoaded
     }
 
 }

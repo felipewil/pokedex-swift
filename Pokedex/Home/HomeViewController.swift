@@ -45,8 +45,9 @@ class HomeViewController: ViewController {
         super.viewDidLoad()
         self.setup()
         self.presenter.delegateDidLoad()
+        self.listLoading()
     }
-    
+
     // MARK: Helpers
 
     private func setup() {
@@ -86,7 +87,6 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        print("--> should load more", indexPath.section == 1)
         guard indexPath.section == 1 else { return }
         self.presenter.delegateWantsToLoadMore()
     }
@@ -101,7 +101,23 @@ extension HomeViewController: HomePresenterDelegate {
         var snapshot = NSDiffableDataSourceSnapshot<Int, Pokemon>()
         snapshot.appendSections([ 0, 1 ])
 
-        var items = self.presenter.pokemons()
+        snapshot.appendItems(self.presenter.pokemons(), toSection: 0)
+        
+        if self.presenter.hasMore() {
+            snapshot.appendItems([ Pokemon(name: UUID().uuidString) ], toSection: 1)
+        }
+
+        dataSource?.defaultRowAnimation = .fade
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+
+    // MARK: Helpers
+    
+    private func listLoading() {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Pokemon>()
+        snapshot.appendSections([ 0 ])
+
+        var items: [ Pokemon ] = []
 
         if self.presenter.isLoading {
             for _ in 0 ..< 10 {
@@ -111,11 +127,8 @@ extension HomeViewController: HomePresenterDelegate {
 
         snapshot.appendItems(items, toSection: 0)
         
-        if self.presenter.hasMore() {
-            snapshot.appendItems([ Pokemon(name: UUID().uuidString) ], toSection: 1)
-        }
-
-        dataSource?.apply(snapshot, animatingDifferences: false)
+        dataSource?.defaultRowAnimation = .fade
+        dataSource?.apply(snapshot, animatingDifferences: true)
     }
 
 }
