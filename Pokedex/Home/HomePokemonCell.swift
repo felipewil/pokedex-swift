@@ -55,7 +55,7 @@ class HomePokemonCell: UITableViewCell {
     
     static func dequeueReusablePlaceholderCell(from tableView: UITableView,
                                                for indexPath: IndexPath) -> HomePokemonCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reusablePlaceholderIdentifier, for: indexPath) as! HomePokemonCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as! HomePokemonCell
 
         cell.isPlaceholder = true
         cell.showLoading(true)
