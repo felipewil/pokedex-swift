@@ -12,10 +12,6 @@ protocol HomePresenterDelegate: AnyObject {
 }
 
 class HomePresenter {
-    
-    private struct Consts {
-        static let pageSize: Int = 50
-    }
 
     // MARK: Properties
 

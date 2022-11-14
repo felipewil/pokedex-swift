@@ -8,7 +8,7 @@
 import UIKit
 import SkeletonView
 
-class HomePokemonCell: UITableViewCell {
+class HomePokemonCell: UICollectionViewCell {
 
     private struct Consts {
         static let titleFontSize: CGFloat = 20.0
@@ -17,7 +17,8 @@ class HomePokemonCell: UITableViewCell {
 
     // MARK: Properties
 
-    static let reusableIdentifier = "HomePokemonCell"
+    static let tableReusableIdentifier = "HomePokemonCell"
+    static let collectionReusableIdentifier = "HomePokemonCell2"
     private var presenter = HomePokemonCellPresenter()
     private var isPlaceholder = false
     private var pokemon: Pokemon?
@@ -35,27 +36,33 @@ class HomePokemonCell: UITableViewCell {
 
     // MARK: Public methods
     
-    static func dequeueReusableCell(from tableView: UITableView,
+    static func dequeueReusableCell(from collectionView: UICollectionView,
+                                    layout: Layout,
                                     pokemon: Pokemon,
                                     for indexPath: IndexPath) -> HomePokemonCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as! HomePokemonCell
+        let reusableIdentifier = layout == .table ? tableReusableIdentifier : collectionReusableIdentifier
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reusableIdentifier,
+                                                      for: indexPath) as! HomePokemonCell
         
-        if cell.pokemon?.name != pokemon.name {
-            cell.pokemon = pokemon
-            cell.isPlaceholder = false
+        cell.titleLabel.font = .systemFont(ofSize: Consts.titleFontSize * (layout == .table ? 1 : 0.8),
+                                           weight: .semibold)
+        cell.titleLabel.textAlignment = layout == .table ? .justified : .center
+        
+        cell.pokemon = pokemon
+        cell.isPlaceholder = false
 
-            cell.clean()
-            
-            cell.presenter.delegate = cell
-            cell.presenter.delegateDidLoad(with: pokemon)
-        }
+        cell.clean()
+        
+        cell.presenter.delegate = cell
+        cell.presenter.delegateDidLoad(with: pokemon)
 
         return cell
     }
     
-    static func dequeueReusablePlaceholderCell(from tableView: UITableView,
+    static func dequeueReusablePlaceholderCell(from collectionView: UICollectionView,
                                                for indexPath: IndexPath) -> HomePokemonCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier, for: indexPath) as! HomePokemonCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tableReusableIdentifier,
+                                                      for: indexPath) as! HomePokemonCell
 
         cell.isPlaceholder = true
         cell.showLoading(true)
@@ -70,7 +77,7 @@ class HomePokemonCell: UITableViewCell {
         self.titleLabel.text = nil
         self.typesStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
     }
-
+    
     // MARK: Helpers
     
     private func setup() {
